@@ -2,12 +2,7 @@ line1
 line2
 
 
-
 and file 2.5
-
-
-
-
 
 
 line3
