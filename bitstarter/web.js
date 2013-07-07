@@ -1,15 +1,31 @@
 var express = require('express');
-fs = require('fs');
-
 var app = express.createServer(express.logger());
-myBuff = new Buffer(256);
 
-fs.readFileSync('./index.html'), function (err, data) {
+var fs = require("fs");
+var fileName = "index.html";
+fs.exists(fileName, function(exists) {
+  if (exists) {
+    fs.stat(fileName, function(error, stats) {
+      fs.open(fileName, "r", function(error, fd) {
+        var buffer = new Buffer(stats.size);
+        fs.read(fd, buffer, 0, buffer.length, null, function(error, bytesRead, buffer) {
+          var data = buffer.toString("utf8", 0, buffer.length);
+          console.log(data);
+          fs.close(fd);
+        });
+      });
+    });
+  }
+});
+
+/* myBuff = new Buffer(256);
+
+fs.readFileSync('index.html'), function (err, data) {
    if (err) throw err;
    len = myBuff.write(data);
    console.log(myBuff.toString('utf8', 0, len));
-});
-
+};
+*/
 
 //app.get('/', function(request, response) {
 //  response.send('Hello World 2!');
