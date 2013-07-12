@@ -1,0 +1,1 @@
+./grader.js --checks checks.json --url http://pacific-cliffs-5427.herokuapp.com
