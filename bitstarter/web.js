@@ -1,31 +1,15 @@
 var express = require('express');
+var fs = require('fs');
+var htmlfile = "index.html";
+
 var app = express.createServer(express.logger());
 
-var fs = require("fs");
-var fileName = "index.html";
-fs.exists(fileName, function(exists) {
-  if (exists) {
-    fs.stat(fileName, function(error, stats) {
-      fs.open(fileName, "r", function(error, fd) {
-        var buffer = new Buffer(stats.size);
-        fs.read(fd, buffer, 0, buffer.length, null, function(error, bytesRead, buffer) {
-          var data = buffer.toString("utf8", 0, buffer.length);
-          console.log(data);
-          app.get('/', function(request, response) {
-             response.send(data);
-          });
-          fs.close(fd);
-        });
-      });
-    });
-  }
+app.get('/', function(request, response) {
+    var html = fs.readFileSync(htmlfile).toString();
+    response.send(html);
 });
-
-//app.get('/', function(request, response) {
-//  response.send('Hello World 2!');
-//});
 
 var port = process.env.PORT || 8080;
 app.listen(port, function() {
-  console.log("Listening on " + port);
+    console.log("Listening on " + port);
 });
